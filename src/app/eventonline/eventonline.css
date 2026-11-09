@@ -1,0 +1,597 @@
+/*
+ * /eventonline landing styles. Loaded only by this route.
+ * Visual language: black & white base, metallic gold (from the LOGRA logo) and silver accents,
+ * Poppins + Playfair Display italic + Cinzel caps.
+ */
+
+/* Inside the components layer so Tailwind utilities can still override these classes. */
+@layer components {
+  .eo-scope {
+    --eo-gold-metal: linear-gradient(110deg, #9c722f 0%, #d9b66f 22%, #fff2cf 42%, #e2c27a 58%, #b08540 78%, #f1d999 100%);
+    --eo-silver-metal: linear-gradient(110deg, #8a8a8a 0%, #e9e9e9 30%, #ffffff 46%, #bdbdbd 64%, #7d7d7d 100%);
+    --eo-hairline: rgb(255 255 255 / 0.1);
+    background: var(--color-eo-black);
+    color: var(--color-eo-white);
+  }
+
+  .eo-shell {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .eo-shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* ---------- Typography ---------- */
+
+  .eo-title {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .eo-serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .eo-caps {
+    font-family: var(--font-caps);
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-weight: 500;
+  }
+
+  .eo-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-family: var(--font-caps);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+  .eo-eyebrow::before,
+  .eo-eyebrow::after {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .eo-eyebrow--left::after {
+    display: none;
+  }
+
+  /* Metallic text. Background drifts slowly to feel like light on metal. */
+  .eo-gold,
+  .eo-gold-dark,
+  .eo-silver {
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: eo-metal-drift 7s ease-in-out infinite;
+  }
+  .eo-gold {
+    background-image: var(--eo-gold-metal);
+  }
+  .eo-silver {
+    background-image: var(--eo-silver-metal);
+  }
+  /* For light backgrounds: no near-white stops. */
+  .eo-gold-dark {
+    background-image: linear-gradient(110deg, #6f501c 0%, #a8803c 25%, #d4ad62 45%, #9a7232 65%, #6a4b1a 85%, #b38a45 100%);
+  }
+  /* Italic glyphs overflow their box: give the clipped background room. */
+  .eo-gold-dark.eo-serif,
+  .eo-gold.eo-serif,
+  .eo-silver.eo-serif {
+    padding-right: 0.08em;
+    margin-right: -0.08em;
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .eo-cta {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.75rem;
+    min-height: 3.75rem;
+    padding: 0 0.5rem 0 1.75rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: var(--eo-gold-metal);
+    background-size: 200% 100%;
+    color: #121212;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.55),
+      inset 0 -1px 0 rgb(80 55 15 / 0.35),
+      0 18px 40px -14px rgb(214 172 92 / 0.65),
+      0 0 0 1px rgb(255 236 190 / 0.25);
+    transition:
+      transform 0.45s var(--ease-out-expo),
+      box-shadow 0.45s var(--ease-out-expo),
+      background-position 0.9s var(--ease-out-expo);
+    cursor: pointer;
+    will-change: transform;
+  }
+  .eo-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    z-index: -1;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.75), transparent);
+    transform: skewX(-20deg);
+    animation: eo-sheen 4.2s ease-in-out infinite;
+  }
+  .eo-cta:hover {
+    background-position: 100% 0;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.6),
+      inset 0 -1px 0 rgb(80 55 15 / 0.35),
+      0 24px 50px -14px rgb(214 172 92 / 0.85),
+      0 0 0 1px rgb(255 236 190 / 0.35);
+  }
+  .eo-cta:active {
+    transform: scale(0.98);
+  }
+  .eo-cta__chip {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.5rem;
+    background: #121212;
+    color: var(--color-eo-gold-soft);
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .eo-cta:hover .eo-cta__chip {
+    transform: rotate(45deg);
+  }
+  .eo-cta--lg {
+    min-height: 4.25rem;
+    padding-left: 2rem;
+    font-size: 1.0625rem;
+  }
+  .eo-cta--lg .eo-cta__chip {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .eo-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3.75rem;
+    padding: 0 1.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    background: rgb(255 255 255 / 0.04);
+    backdrop-filter: blur(10px);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition:
+      background-color 0.35s,
+      border-color 0.35s;
+  }
+  .eo-ghost:hover {
+    background: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.5);
+  }
+
+  /* ---------- Surfaces ---------- */
+
+  /*
+   * Glassmorphism: frosted blur + saturation, translucent dark tint (legible on photos, black
+   * AND white sections), a diagonal light reflection, a bright top edge and a soft drop shadow.
+   */
+  .eo-glass {
+    --eo-glass-tint: 14 14 14;
+    --eo-glass-alpha: 0.38;
+    background:
+      linear-gradient(135deg, rgb(255 255 255 / 0.14) 0%, rgb(255 255 255 / 0.05) 38%, rgb(255 255 255 / 0.01) 62%, rgb(255 255 255 / 0.08) 100%),
+      rgb(var(--eo-glass-tint) / var(--eo-glass-alpha));
+    border: 1px solid rgb(255 255 255 / 0.16);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.24),
+      inset 0 -1px 0 rgb(255 255 255 / 0.05),
+      inset 0 0 24px rgb(255 255 255 / 0.03),
+      0 12px 32px -14px rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+  }
+  /* Denser variant for the navbar, which floats over both dark and white sections. */
+  .eo-glass--nav {
+    --eo-glass-alpha: 0.74;
+    backdrop-filter: blur(26px) saturate(160%);
+    -webkit-backdrop-filter: blur(26px) saturate(160%);
+  }
+  .eo-glass--light {
+    --eo-glass-tint: 255 255 255;
+    --eo-glass-alpha: 0.16;
+  }
+
+  /* Dark metallic card with a thin gold hairline (gradient border). */
+  .eo-metal-card {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(165deg, #1b1b1b 0%, #262626 55%, #1a1a1a 100%) padding-box,
+      linear-gradient(140deg, rgb(232 207 149 / 0.65), rgb(232 207 149 / 0.08) 35%, rgb(255 255 255 / 0.05) 65%, rgb(232 207 149 / 0.45)) border-box;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.55);
+  }
+
+  /* Square icon box that "bites" into its card (law-firm reference notch). */
+  .eo-notch {
+    position: absolute;
+    top: -0.375rem;
+    right: -0.375rem;
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: #111;
+    color: var(--color-eo-gold-soft);
+    box-shadow:
+      0 0 0 0.5rem var(--eo-notch-ring, var(--color-eo-paper)),
+      inset 0 0 0 1px rgb(232 207 149 / 0.35);
+  }
+
+  .eo-noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .eo-outline-word {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.14);
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* ---------- Hero ---------- */
+
+  /* Word-by-word masked rise on load (SSR friendly, no JS). */
+  .eo-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .eo-word > span {
+    display: inline-block;
+    transform: translateY(105%);
+    animation: eo-word-rise 1.1s var(--ease-out-expo) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+  .eo-fade-up {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: eo-fade-up 1s var(--ease-out-expo) forwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* ---------- Marquee ---------- */
+
+  .eo-marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .eo-emblem-ring {
+    animation: eo-spin 26s linear infinite;
+  }
+
+  /* ---------- Learn: sticky stacked cards ---------- */
+
+  .eo-stack-card {
+    position: sticky;
+    top: calc(7rem + var(--i) * 1.25rem);
+  }
+
+  /* ---------- Pillars timeline ---------- */
+
+  .eo-pillar {
+    transition:
+      opacity 0.6s var(--ease-out-expo),
+      transform 0.6s var(--ease-out-expo);
+  }
+  .eo-pillar .eo-pillar__dot {
+    background: var(--color-eo-black);
+    transition:
+      background-color 0.5s,
+      box-shadow 0.5s,
+      transform 0.5s var(--ease-out-expo);
+  }
+  .eo-pillar.is-active .eo-pillar__dot {
+    background: var(--color-eo-gold-soft);
+    box-shadow: 0 0 0 6px rgb(232 207 149 / 0.15), 0 0 24px rgb(232 207 149 / 0.6);
+    transform: scale(1.15);
+  }
+  .eo-pillar .eo-pillar__number {
+    transition: color 0.5s, -webkit-text-stroke-color 0.5s;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.22);
+  }
+  .eo-pillar.is-active .eo-pillar__number {
+    -webkit-text-stroke-color: var(--color-eo-gold-soft);
+  }
+  @media (min-width: 1024px) {
+    .eo-pillar:not(.is-active) {
+      opacity: 0.38;
+    }
+  }
+
+  /* ---------- Compare slider ---------- */
+
+  .eo-compare {
+    --pos: 50%;
+    position: relative;
+    overflow: hidden;
+    touch-action: pan-y;
+    user-select: none;
+    cursor: ew-resize;
+  }
+  .eo-compare__before {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+    will-change: clip-path;
+  }
+  .eo-compare__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    transform: translateX(-1px);
+    background: linear-gradient(180deg, transparent, #fff 12%, #fff 88%, transparent);
+    box-shadow: 0 0 18px rgb(0 0 0 / 0.45);
+    pointer-events: none;
+  }
+  .eo-compare__knob {
+    position: absolute;
+    top: 50%;
+    left: var(--pos);
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    background: rgb(10 10 10 / 0.55);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+    transition:
+      transform 0.35s var(--ease-out-expo),
+      background-color 0.35s;
+    cursor: grab;
+  }
+  .eo-compare:hover .eo-compare__knob,
+  .eo-compare__knob:focus-visible {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: rgb(10 10 10 / 0.75);
+  }
+  .eo-compare.is-dragging .eo-compare__knob {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+  .eo-compare__tag {
+    transition: opacity 0.3s;
+  }
+
+  /* ---------- FAQ accordion (smooth height via grid rows) ---------- */
+
+  .eo-faq__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s var(--ease-out-expo);
+  }
+  .eo-faq__item[data-open="true"] .eo-faq__panel {
+    grid-template-rows: 1fr;
+  }
+  .eo-faq__icon {
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+  .eo-faq__item[data-open="true"] .eo-faq__icon {
+    transform: rotate(45deg);
+  }
+
+  /* ---------- Registration dialog ---------- */
+
+  .eo-dialog {
+    width: min(32rem, calc(100% - 1.5rem));
+    max-height: calc(100svh - 1.5rem);
+    margin: auto;
+    padding: 0;
+    border: none;
+    border-radius: 1.25rem;
+    background: transparent;
+    color: var(--color-eo-white);
+    /* Short viewports (landscape phones, large text): the form scrolls inside the dialog. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+  .eo-dialog::backdrop {
+    background: rgb(0 0 0 / 0.72);
+    backdrop-filter: blur(6px);
+  }
+  .eo-dialog[open] {
+    animation: eo-dialog-in 0.55s var(--ease-out-expo);
+  }
+  .eo-dialog[open]::backdrop {
+    animation: eo-fade-in 0.4s ease;
+  }
+
+  .eo-field {
+    width: 100%;
+    height: 3.375rem;
+    padding: 0 1rem;
+    border-radius: 0.625rem;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: rgb(255 255 255 / 0.04);
+    color: #fff;
+    font-size: 1rem; /* 16px: avoids iOS zoom on focus */
+    transition:
+      border-color 0.25s,
+      background-color 0.25s,
+      box-shadow 0.25s;
+  }
+  .eo-field::placeholder {
+    color: rgb(255 255 255 / 0.32);
+  }
+  .eo-field:hover {
+    border-color: rgb(255 255 255 / 0.26);
+  }
+  .eo-field:focus,
+  .eo-phone:focus-within {
+    outline: none;
+    border-color: var(--color-eo-gold-soft);
+    background: rgb(255 255 255 / 0.06);
+    box-shadow: 0 0 0 4px rgb(232 207 149 / 0.12);
+  }
+  .eo-field[aria-invalid="true"],
+  .eo-phone.is-invalid {
+    border-color: rgb(248 113 113 / 0.75);
+  }
+
+  /* react-phone-number-input skin */
+  .eo-phone {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 0 0 1rem;
+  }
+  .eo-phone .PhoneInputInput {
+    height: 100%;
+    min-width: 0;
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+  }
+  .eo-phone .PhoneInputInput::placeholder {
+    color: rgb(255 255 255 / 0.32);
+  }
+  .eo-phone .PhoneInputCountry {
+    padding-right: 0.75rem;
+    border-right: 1px solid rgb(255 255 255 / 0.12);
+    height: 60%;
+  }
+  .eo-phone .PhoneInputCountrySelectArrow {
+    color: #fff;
+    opacity: 0.6;
+  }
+  .eo-phone .PhoneInputCountrySelect {
+    color: #111;
+  }
+
+  /* ---------- Keyframes ---------- */
+
+  @keyframes eo-metal-drift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+  @keyframes eo-sheen {
+    0%,
+    55% {
+      left: -60%;
+    }
+    85%,
+    100% {
+      left: 130%;
+    }
+  }
+  @keyframes eo-word-rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes eo-fade-up {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes eo-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes eo-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes eo-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+    }
+  }
+  @keyframes eo-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .eo-scope *,
+    .eo-scope *::before,
+    .eo-scope *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .eo-word > span,
+    .eo-fade-up {
+      transform: none;
+      opacity: 1;
+    }
+  }
+}

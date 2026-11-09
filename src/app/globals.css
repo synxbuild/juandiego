@@ -1,315 +1,46 @@
 @import "tailwindcss";
 
+/*
+ * Global = only what every landing shares: Tailwind, raw tokens, base rules.
+ * Landing-specific styles live in each route (e.g. app/eventonline/eventonline.css).
+ */
 @theme {
-  --color-ink: #0c0b09;
-  --color-ink-2: #14120f;
-  --color-ink-3: #1d1a16;
-  --color-paper: #efe8dc;
-  --color-paper-2: #e4dacb;
-  --color-paper-3: #d6cab7;
-  --color-bone: #f6f2ea;
-  --color-mist: #a39a8c;
-  --color-stone: #6f675b;
-  --color-brass: #c6a36a;
-  --color-brass-2: #a8854d;
-  --color-brass-ink: #74592e;
+  --color-eo-black: #050505;
+  --color-eo-ink: #0b0b0b;
+  --color-eo-char: #141414;
+  --color-eo-graphite: #222222;
+  --color-eo-steel: #6e6e6e;
+  --color-eo-mist: #a6a6a6;
+  --color-eo-silver: #d4d4d4;
+  --color-eo-paper: #f6f5f2;
+  --color-eo-white: #ffffff;
+  --color-eo-gold: #c9a45c;
+  --color-eo-gold-soft: #e8cf95;
+  --color-eo-gold-deep: #8f6a2c;
 
-  --font-display: var(--font-fraunces), "Times New Roman", serif;
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), "Times New Roman", serif;
+  --font-caps: var(--font-cinzel), var(--font-playfair), serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
-
   body {
-    background: var(--color-ink);
-    color: var(--color-bone);
+    background: var(--color-eo-black);
+    color: var(--color-eo-white);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
     overflow-x: clip;
   }
-
   ::selection {
-    background: var(--color-brass);
-    color: var(--color-ink);
+    background: var(--color-eo-gold);
+    color: var(--color-eo-black);
   }
-
   :focus-visible {
-    outline: 2px solid var(--color-brass);
+    outline: 2px solid var(--color-eo-gold);
     outline-offset: 3px;
-  }
-
-  [id] {
-    scroll-margin-top: 6rem;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-@layer components {
-  .shell {
-    width: 100%;
-    max-width: 78rem;
-    margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-  @media (min-width: 768px) {
-    .shell {
-      padding-inline: 2.5rem;
-    }
-  }
-
-  /* Small uppercase label in mono, used as section kicker. */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  .eyebrow::before {
-    content: "";
-    width: 1.75rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.6;
-  }
-
-  .display {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 144, "SOFT" 30;
-    font-weight: 340;
-    letter-spacing: -0.025em;
-    line-height: 1.02;
-    text-wrap: balance;
-  }
-  .display em {
-    font-style: italic;
-    font-weight: 300;
-    font-variation-settings: "opsz" 144, "SOFT" 100;
-  }
-
-  .numeral {
-    font-family: var(--font-display);
-    font-variation-settings: "opsz" 144;
-    font-weight: 300;
-    letter-spacing: -0.03em;
-    font-variant-numeric: lining-nums tabular-nums;
-  }
-
-  /* Huge outlined word used as an editorial backdrop. */
-  .outline-word {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-variation-settings: "opsz" 144;
-    line-height: 0.8;
-    letter-spacing: -0.04em;
-    color: transparent;
-    -webkit-text-stroke: 1px currentColor;
-    user-select: none;
-    pointer-events: none;
-  }
-
-  /* Architectural corner marks around a block. */
-  .ticks {
-    position: relative;
-  }
-  .ticks::before,
-  .ticks::after {
-    content: "";
-    position: absolute;
-    width: 0.875rem;
-    height: 0.875rem;
-    border-color: var(--color-brass);
-    pointer-events: none;
-  }
-  .ticks::before {
-    top: 0;
-    left: 0;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-  .ticks::after {
-    right: 0;
-    bottom: 0;
-    border-right: 1px solid;
-    border-bottom: 1px solid;
-  }
-
-  /* Faint blueprint grid for dark sections. */
-  .blueprint {
-    background-image:
-      linear-gradient(to right, rgb(239 232 220 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(239 232 220 / 0.045) 1px, transparent 1px);
-    background-size: 4.5rem 4.5rem;
-  }
-
-  .grain {
-    position: relative;
-    isolation: isolate;
-  }
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.07;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Primary call to action. */
-  .btn-primary {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    min-height: 3.25rem;
-    padding: 0 1.5rem;
-    border-radius: 999px;
-    background: var(--color-brass);
-    color: var(--color-ink);
-    font-weight: 600;
-    font-size: 0.9375rem;
-    letter-spacing: -0.005em;
-    overflow: hidden;
-    transition:
-      background-color 0.3s var(--ease-out-expo),
-      transform 0.3s var(--ease-out-expo);
-  }
-  .btn-primary:hover {
-    background: #d5b47c;
-  }
-  .btn-primary:active {
-    transform: scale(0.98);
-  }
-  .btn-primary .btn-arrow {
-    display: grid;
-    place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    margin-right: -0.75rem;
-    border-radius: 999px;
-    background: var(--color-ink);
-    color: var(--color-brass);
-    transition: transform 0.35s var(--ease-out-expo);
-  }
-  .btn-primary:hover .btn-arrow {
-    transform: translateX(3px) rotate(-45deg);
-  }
-
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    padding: 0 1.125rem;
-    border-radius: 999px;
-    border: 1px solid currentColor;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition:
-      background-color 0.3s,
-      color 0.3s;
-  }
-
-  /* Infinite marquee. Content is duplicated in markup. */
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 48s linear infinite;
-  }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-    }
-  }
-
-  /* Hero entrance (load) choreography. */
-  .rise {
-    opacity: 0;
-    transform: translateY(18px);
-    animation: rise 1s var(--ease-out-expo) forwards;
-    animation-delay: var(--d, 0ms);
-  }
-}
-
-/* Scroll-driven reveals: pure CSS, no JS. Browsers without support show content as-is. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 35%;
-    }
-    .reveal-line {
-      transform-origin: left;
-      animation: draw linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 40%;
-    }
-  }
-}
-
-@keyframes rise {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
   }
 }

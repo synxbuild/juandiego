@@ -1,53 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
-import { MetaPixel } from "@/features/analytics/meta-pixel";
+import { Cinzel, Playfair_Display, Poppins } from "next/font/google";
+import { MetaPixel } from "@/components/eventonline/ui/meta-pixel";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Root layout owns <html>, tracking and ALL font variables. Landings own their metadata.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Variable fonts: no weight list. Secondary fonts are not preloaded so they don't compete with the hero LCP.
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
   style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
   display: "swap",
+  preload: false,
 });
 
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
   subsets: ["latin"],
   display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
-  title: "LOGRA | Masterclass gratuita de bienes raíces en Puerto Rico",
-  description:
-    "Masterclass gratuita en vivo con Juan Diego Gómez Sisco: el sistema para encontrar, financiar, remodelar y vender propiedades abandonadas en Puerto Rico.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://lograbienesraicespr.com"),
   icons: { icon: "/images/logra-favicon.png" },
-  openGraph: {
-    title: "LOGRA | Masterclass gratuita de bienes raíces en Puerto Rico",
-    description:
-      "El sistema para encontrar, financiar, remodelar y vender propiedades abandonadas en Puerto Rico. Online y en vivo.",
-    images: ["/images/logra-desarrollo.jpeg"],
-    locale: "es_PR",
-    type: "website",
-  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0b09",
+  themeColor: "#050505",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${fraunces.variable} ${hanken.variable} ${plexMono.variable} antialiased`}
+      className={`${poppins.variable} ${playfair.variable} ${cinzel.variable} antialiased`}
     >
       <body>
         {children}

@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LOGRA — Landings
 
-## Getting Started
-
-First, run the development server:
+Landings for LOGRA (Juan Diego Gómez Sisco, real estate in Puerto Rico), built by SYNX BUILD.
+Next.js 16 (App Router) + React 19 + Tailwind CSS v4 + GSAP/ScrollTrigger + Lenis.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev        # http://localhost:3000 → redirects to /eventonline
+pnpm build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Route | Purpose |
+| --- | --- |
+| `/eventonline` | Free live masterclass registration landing |
+| `/eventonline/confirmacion` | Post-registration confirmation (noindex) |
+| `/api/register` | Server-side registration endpoint |
+| `/` | 307 redirect to `/eventonline` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure (one route per landing)
 
-## Learn More
+```
+src/app/layout.tsx                  <html>, ALL font variables (Poppins, Playfair Display, Cinzel), Meta Pixel
+src/app/globals.css                 Tailwind + raw tokens shared by every landing (no landing styles here)
+src/app/eventonline/                layout (metadata, .eo-scope, registration dialog), page, landing CSS, confirmacion/
+src/app/api/register/route.ts       re-validates and forwards leads; webhook URL never reaches the browser
+src/components/eventonline/
+  content.ts                        ALL copy and data for the landing
+  registration.ts                   validation shared by client form and API route
+  sections/                         one file per section
+  ui/                               motion layer, registration dialog, CTA, compare slider, countdown, accordion
+```
 
-To learn more about Next.js, take a look at the following resources:
+Landing styles live in `src/app/eventonline/eventonline.css`, inside `@layer components` so Tailwind utilities can override them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Motion
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`ui/motion.tsx` mounts Lenis (synced to the GSAP ticker) and wires scroll animations through data attributes:
+`data-reveal`, `data-reveal-group`, `data-parallax`, `data-drift-x`, `data-count`, `data-scroll-progress`.
+Section-specific motion (marquee velocity, pillars timeline, compare slider hint) lives in those components.
+Everything respects `prefers-reduced-motion`.
 
-## Deploy on Vercel
+## Environment variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Variable | Purpose |
+| --- | --- |
+| `REGISTRATION_WEBHOOK_URL` | Server-only. Lead destination (CRM / webhook). Missing in production → the API returns an error, never a fake success. Missing in dev → demo success. |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Meta Pixel. The current live landing uses `2269346420545934`. Leave empty in demos. |
+| `NEXT_PUBLIC_SITE_URL` | Base URL for Open Graph images (defaults to `https://lograbienesraicespr.com`). |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Registration form
+
+Mirrors the current Typeform (`ndgYv5uR`): full name (required), phone (optional, PR/+1 default), email (optional).
+Lead payload sent to the webhook: `{ fullName, phone (E.164), email, source: "logra-eventonline", createdAt }`.
+
+## Pending client validation
+
+- How the 40,000–80,000 USD potential range is calculated. The live site's pillar 05 says "$30,000–$100,000 per property" (inconsistent; removed here).
+- Per student case: operation type and whether the monthly income is gross or net.
+- "+50 people used the system" vs "160+ LOGRA students": confirm both figures.
+- Whether phone/email should become required (Typeform currently only requires the name).
+- Real CRM/webhook for leads, and legal page URLs (Privacy, Terms, Cookies).
+- A high-resolution hero photo: the current `logra-background-*.webp` files are heavily pre-darkened and low-res (21–38 KB).
+- Before/after: only pairs 1, 2, 4 and 5 show the same area, so only those use the drag-to-compare viewer. Pairs 3 and 6 are different rooms and are shown as standalone interior details. Same-angle photos would make the comparison even stronger.

@@ -1,11 +1,12 @@
 import Script from "next/script";
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const RAW_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
+// Interpolated into an inline script: only accept a numeric id.
+const PIXEL_ID = RAW_PIXEL_ID && /^\d{5,20}$/.test(RAW_PIXEL_ID) ? RAW_PIXEL_ID : undefined;
 
 /**
- * Meta Pixel, mirroring the current landing (PageView on load).
- * Disabled unless NEXT_PUBLIC_META_PIXEL_ID is set, so the demo
- * never pollutes the client's production data.
+ * Meta Pixel (PageView), mirroring the current landing.
+ * Disabled unless NEXT_PUBLIC_META_PIXEL_ID is set, so demos never pollute production data.
  */
 export function MetaPixel() {
   if (!PIXEL_ID) return null;
@@ -25,6 +26,5 @@ fbq('init','${PIXEL_ID}');fbq('track','PageView');`}
 type Fbq = (action: "track", event: string, params?: Record<string, unknown>) => void;
 
 export function trackLead() {
-  const fbq = (globalThis as { fbq?: Fbq }).fbq;
-  fbq?.("track", "Lead");
+  (globalThis as { fbq?: Fbq }).fbq?.("track", "Lead");
 }
