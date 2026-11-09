@@ -2,8 +2,10 @@
 
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput, { isValidPhoneNumber, type Country } from "react-phone-number-input";
+import phoneLabelsEs from "react-phone-number-input/locale/es";
 import "react-phone-number-input/style.css";
+import { PhoneCountrySelect } from "./phone-country-select";
 import { AlertCircle, Check, Lock, X } from "lucide-react";
 import { CONFIRMATION_PATH, event, FIRST_NAME_KEY } from "../content";
 import { validateRegistration, type RegistrationErrors, type RegistrationInput } from "../registration";
@@ -97,6 +99,7 @@ function RegistrationPanel({ onClose, onSuccess }: { onClose: () => void; onSucc
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const honeypot = useRef<HTMLInputElement>(null);
+  const [phoneCountry, setPhoneCountry] = useState<Country | undefined>("PR");
 
   const validate = (input: RegistrationInput) => validateRegistration(input, isValidPhoneNumber);
 
@@ -226,7 +229,11 @@ function RegistrationPanel({ onClose, onSuccess }: { onClose: () => void; onSucc
                 aria-invalid={Boolean(errors.phone)}
                 defaultCountry="PR"
                 international={false}
-                placeholder="(787) 000-0000"
+                labels={phoneLabelsEs}
+                countrySelectComponent={PhoneCountrySelect}
+                countryOptionsOrder={["PR", "US", "DO", "|", "..."]}
+                onCountryChange={(c) => setPhoneCountry(c)}
+                placeholder={phoneCountry === "PR" || phoneCountry === "US" ? "(787) 000-0000" : "Número de teléfono"}
                 value={data.phone || undefined}
                 onChange={(v) => update("phone", v ?? "")}
                 onBlur={() => blur("phone")}
