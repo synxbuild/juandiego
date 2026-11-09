@@ -12,9 +12,15 @@ export function Presenter() {
       </p>
 
       <div className="eo-shell relative">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <figure data-reveal className="relative lg:col-span-5">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] ring-1 ring-eo-gold-soft/25">
+        {/*
+          Desktop: the photo starts level with the heading and stays pinned (sticky) while the
+          content column scrolls, releasing when the content ends. The column wrapper stretches to
+          the full row height so the sticky figure has room to travel.
+        */}
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+          <figure data-reveal className="relative lg:sticky lg:top-28">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] ring-1 ring-eo-gold-soft/25 lg:aspect-auto lg:h-[min(38rem,calc(100svh-9rem))]">
               <div data-parallax="0.12" className="absolute inset-x-0 -top-[8%] h-[116%]">
                 <Image
                   src={presenter.image}
@@ -34,6 +40,7 @@ export function Presenter() {
               </figcaption>
             </div>
           </figure>
+          </div>
 
           <div className="lg:col-span-7">
             <p data-reveal className="eo-eyebrow eo-eyebrow--left text-eo-gold-soft">
