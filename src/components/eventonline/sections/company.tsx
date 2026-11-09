@@ -2,13 +2,12 @@ import Image from "next/image";
 import { Check, MapPin } from "lucide-react";
 import { company } from "../content";
 import { CtaButton } from "../ui/cta-button";
+import { RoofDivider } from "../ui/roof-divider";
 
 export function Company() {
   return (
     <section aria-labelledby="company-title" className="relative overflow-x-clip bg-eo-paper py-28 text-eo-black md:py-36">
-      <svg className="absolute inset-x-0 top-0 h-16 w-full -translate-y-px md:h-24" viewBox="0 0 1440 96" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 0H1440V30C1180 30 1060 96 720 96C380 96 260 30 0 30V0Z" fill="#050505" />
-      </svg>
+      <RoofDivider id="company-top" direction="down" fill="#050505" className="absolute inset-x-0 top-0 -translate-y-px" />
 
       <div className="eo-shell grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-16">
         <div data-reveal className="relative lg:col-span-6">
@@ -84,9 +83,7 @@ export function Company() {
         </div>
       </div>
 
-      <svg className="absolute inset-x-0 bottom-0 h-16 w-full translate-y-px md:h-24" viewBox="0 0 1440 96" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 96V66C260 66 380 0 720 0C1060 0 1180 66 1440 66V96H0Z" fill="#050505" />
-      </svg>
+      <RoofDivider id="company-bottom" fill="#050505" className="absolute inset-x-0 bottom-0 translate-y-px" />
     </section>
   );
 }

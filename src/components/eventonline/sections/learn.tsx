@@ -1,10 +1,11 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
-import { Building2, ChartNoAxesCombined, Workflow } from "lucide-react";
+import { Building2, ChartNoAxesCombined, KeyRound, ListChecks, Workflow } from "lucide-react";
 import { learning } from "../content";
 import { CtaButton } from "../ui/cta-button";
 
 const ICONS = { chart: ChartNoAxesCombined, flow: Workflow, building: Building2 } as const;
+const TAKEAWAY_ICONS = { system: ListChecks, rent: KeyRound } as const;
 
 export function Learn() {
   return (
@@ -21,7 +22,7 @@ export function Learn() {
 
       <div className="eo-shell relative grid gap-14 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-32">
+          <div>
             <p data-reveal className="eo-eyebrow eo-eyebrow--left text-eo-gold-deep">
               La masterclass
             </p>
@@ -35,22 +36,45 @@ export function Learn() {
               {learning.outcome}
             </p>
 
-            <div data-reveal className="mt-10 overflow-hidden rounded-[1.25rem] bg-eo-black text-white">
-              <p className="border-b border-white/10 px-6 py-4 text-[0.625rem] font-medium uppercase tracking-[0.22em] text-eo-gold-soft">
-                Al finalizar la masterclass
-              </p>
-              <ul className="divide-y divide-white/10">
-                {learning.takeaways.map((t) => (
-                  <li key={t.title} className="grid grid-cols-[5rem_1fr] gap-4 px-6 py-5">
-                    <span className="pt-1 text-[0.625rem] uppercase tracking-[0.2em] text-white/45">{t.label}</span>
-                    <div>
-                      <p className="font-medium">{t.title}</p>
-                      <p className="mt-1 text-sm leading-relaxed text-white/60">{t.body}</p>
-                    </div>
+            <p data-reveal className="mt-10 text-[0.625rem] font-medium uppercase tracking-[0.24em] text-eo-gold-deep">
+              Al finalizar la masterclass
+            </p>
+            <ul data-reveal-group className="mt-4 grid gap-4 sm:grid-cols-2">
+              {learning.takeaways.map((t) => {
+                const Icon = TAKEAWAY_ICONS[t.icon];
+                const isBonus = t.label === "Bono";
+                return (
+                  <li key={t.title}>
+                    <article className="group h-full overflow-hidden rounded-[1.25rem] bg-eo-black text-white shadow-[0_30px_60px_-30px_rgb(0_0_0/0.45)]">
+                      <div className="relative h-36 overflow-hidden">
+                        <Image
+                          src={t.image}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 20vw, (min-width: 640px) 45vw, 92vw"
+                          className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-eo-black via-eo-black/30 to-transparent" aria-hidden="true" />
+                        <span
+                          className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[0.625rem] font-semibold uppercase tracking-[0.18em] ${
+                            isBonus ? "bg-eo-gold-soft text-eo-black" : "eo-glass text-white"
+                          }`}
+                        >
+                          {t.label}
+                        </span>
+                        <span className="absolute bottom-3 left-4 grid size-11 place-items-center rounded-xl bg-eo-black/80 text-eo-gold-soft ring-1 ring-eo-gold-soft/40 backdrop-blur">
+                          <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
+                        </span>
+                      </div>
+                      <div className="p-5 pt-3">
+                        <h3 className="font-medium leading-snug">{t.title}</h3>
+                        <p className="mt-1.5 text-sm leading-relaxed text-white/60">{t.body}</p>
+                      </div>
+                    </article>
                   </li>
-                ))}
-              </ul>
-            </div>
+                );
+              })}
+            </ul>
 
             <div data-reveal className="mt-8 hidden lg:block">
               <CtaButton>Quiero aprender el sistema</CtaButton>

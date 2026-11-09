@@ -184,7 +184,17 @@ function RegistrationPanel({ onClose, onSuccess }: { onClose: () => void; onSucc
             {event.dateLabel} · {event.timeLabel} ({event.shortTimezone}) · {event.format}
           </p>
 
-          <form noValidate onSubmit={onSubmit} className="relative mt-7 grid gap-5" aria-busy={status === "submitting"}>
+          {/*
+            minmax(0,1fr): WebKit (iOS Safari) sizes the implicit grid column from the button's
+            max-content width, pushing every field past the card. A zero minimum keeps the column
+            inside the card so the button label wraps instead.
+          */}
+          <form
+            noValidate
+            onSubmit={onSubmit}
+            className="relative mt-7 grid grid-cols-[minmax(0,1fr)] gap-5"
+            aria-busy={status === "submitting"}
+          >
             {/* Honeypot: invisible to people, bots tend to fill it. */}
             <input
               ref={honeypot}

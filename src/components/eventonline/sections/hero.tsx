@@ -49,62 +49,74 @@ export function Hero() {
   const leadWords = hero.titleLead.split(" ").length;
 
   return (
-    <section id="top" aria-labelledby="hero-title" className="relative isolate flex min-h-svh flex-col overflow-hidden bg-eo-black">
-      <div className="absolute inset-0 -z-20 overflow-hidden" aria-hidden="true">
+    // overflow-x-clip (not hidden) + z-10: the emblem on the bottom band must overflow into the next section.
+    <section id="top" aria-labelledby="hero-title" className="relative z-10 flex min-h-svh flex-col overflow-x-clip bg-eo-black">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div data-parallax="0.3" className="absolute inset-x-0 -top-[10%] h-[120%]">
           <HeroImage />
         </div>
+        {/* Mobile: text is left-aligned, so darken from the left. Desktop: centered vignette. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-eo-black/85 via-eo-black/55 to-eo-black/20 md:hidden" />
+        <div className="absolute inset-0 hidden bg-[radial-gradient(ellipse_60%_55%_at_50%_42%,rgb(5_5_5/0.7),rgb(5_5_5/0.25)_75%,rgb(5_5_5/0.6))] md:block" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-eo-black to-transparent" />
       </div>
-      <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_55%_at_50%_42%,rgb(5_5_5/0.7),rgb(5_5_5/0.25)_75%,rgb(5_5_5/0.6))]"
-        aria-hidden="true"
-      />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-eo-black to-transparent" aria-hidden="true" />
 
-      <div className="eo-shell flex flex-1 flex-col items-center justify-center pb-24 pt-32 text-center md:pb-28 md:pt-40">
-        <p className="eo-fade-up eo-glass inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-[0.75rem] font-medium text-white/85" style={d(0)}>
+      {/* Mobile: everything fits in one screen (min-h-svh), left-aligned. Desktop: centered composition. */}
+      <div className="eo-shell relative flex flex-1 flex-col items-start justify-center pb-12 pt-20 text-left md:items-center md:pb-28 md:pt-40 md:text-center">
+        <p className="eo-fade-up eo-glass inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-[0.6875rem] font-medium text-white/85 md:px-4 md:py-2 md:text-[0.75rem]" style={d(0)}>
           <span className="relative flex size-2">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-red-500/70" />
             <span className="relative inline-flex size-2 rounded-full bg-red-500" />
           </span>
-          {event.name} · {event.format} · {event.shortDateLabel}, {event.timeLabel} {event.shortTimezone}
+          <span className="md:hidden">
+            Gratis · En vivo · {event.shortDateLabel}, {event.timeLabel} {event.shortTimezone}
+          </span>
+          <span className="hidden md:inline">
+            {event.name} · {event.format} · {event.shortDateLabel}, {event.timeLabel} {event.shortTimezone}
+          </span>
         </p>
 
-        <p className="eo-fade-up eo-caps mt-8 text-[0.625rem] text-white/70 md:text-[0.75rem]" style={d(120)}>
+        <p className="eo-fade-up eo-caps mt-8 hidden text-[0.75rem] text-white/70 md:block" style={d(120)}>
           {hero.kicker}
         </p>
 
-        <h1 id="hero-title" className="eo-title mt-5 max-w-5xl text-[2.375rem] sm:text-[3.25rem] md:text-[4.25rem] lg:text-[4.75rem]">
+        <h1 id="hero-title" className="eo-title mt-5 max-w-5xl text-[2.125rem] leading-[1.06] sm:text-[3.25rem] md:text-[4.25rem] lg:text-[4.75rem]">
           <SplitWords text={hero.titleLead} start={200} />
           <br className="hidden md:block" />
           <SplitWords text={hero.titleAccent} start={200 + leadWords * 55} wordClassName="eo-serif eo-gold" />
         </h1>
 
-        <p className="eo-fade-up mt-7 max-w-2xl text-[1rem] leading-relaxed text-white/70 md:text-[1.125rem]" style={d(800)}>
+        <p className="eo-fade-up mt-3 max-w-2xl text-[0.875rem] leading-normal text-white/70 md:mt-7 md:text-[1.125rem] md:leading-relaxed" style={d(800)}>
           {hero.body}
         </p>
 
-        <div className="eo-fade-up mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row" style={d(950)}>
+        <div className="eo-fade-up mt-5 flex w-full flex-col gap-3 sm:w-auto sm:flex-row md:mt-10 md:justify-center" style={d(950)}>
           <CtaButton size="lg" className="w-full sm:w-auto">
             Reservar mi lugar gratis
           </CtaButton>
-          <a href="#masterclass" className="eo-ghost w-full sm:w-auto">
+          <a href="#masterclass" className="eo-ghost hidden sm:inline-flex">
             Qué vas a aprender
           </a>
         </div>
 
-        <div className="eo-fade-up mt-12 flex flex-col items-center gap-6 md:flex-row md:gap-10" style={d(1100)}>
-          <div className="text-center md:text-left">
-            <p className="text-[0.625rem] uppercase tracking-[0.2em] text-white/50">Potencial por operación</p>
-            <p className="mt-1 text-xl font-semibold tracking-tight md:text-2xl">
+        {/* Mobile: two tight columns under a hairline. Desktop: inline pair with a divider. */}
+        <div className="eo-fade-up mt-5 grid w-full grid-cols-2 gap-4 border-t border-white/10 pt-4 md:mt-12 md:flex md:w-auto md:items-center md:gap-10 md:border-t-0 md:pt-0" style={d(1100)}>
+          <div className="text-left">
+            <p className="text-[0.5625rem] uppercase tracking-[0.18em] text-white/50 md:text-[0.625rem]">Potencial / operación</p>
+            <p className="mt-1 whitespace-nowrap text-[0.8125rem] font-semibold tracking-tight md:text-2xl">
               <span className="eo-silver">{hero.potential.value}</span>
-              <sup className="ml-1 text-xs text-eo-gold-soft">*</sup>
+              <sup className="ml-0.5 text-[0.625rem] text-eo-gold-soft">*</sup>
             </p>
           </div>
           <span className="hidden h-10 w-px bg-white/15 md:block" aria-hidden="true" />
-          <div className="text-center md:text-left">
-            <p className="mb-1 text-[0.625rem] uppercase tracking-[0.2em] text-white/50">Comienza en</p>
-            <Countdown compact />
+          <div className="border-l border-white/10 pl-4 text-left md:border-l-0 md:pl-0">
+            <p className="text-[0.5625rem] uppercase tracking-[0.18em] text-white/50 md:mb-1 md:text-[0.625rem]">Comienza en</p>
+            <div className="mt-1 md:hidden">
+              <Countdown variant="mini" />
+            </div>
+            <div className="hidden md:block">
+              <Countdown variant="compact" />
+            </div>
           </div>
         </div>
       </div>

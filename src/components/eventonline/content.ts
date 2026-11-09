@@ -113,11 +113,15 @@ export const learning = {
       label: "Te llevas",
       title: "El sistema Fix & Flip",
       body: "El mismo que Juan Diego aplicó en su última operación de compra, remodelación y venta en Puerto Rico.",
+      image: "/images/despues-1.webp",
+      icon: "system",
     },
     {
       label: "Bono",
       title: "Portfolio de propiedades en renta",
       body: "Cómo construir un activo que genere ingresos mensuales.",
+      image: "/images/despues-4.webp",
+      icon: "rent",
     },
   ],
 } as const;

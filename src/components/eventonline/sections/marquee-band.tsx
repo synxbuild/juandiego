@@ -59,7 +59,7 @@ export function MarqueeBand() {
 
   return (
     <div className="relative z-10">
-      <div className="eo-glass overflow-hidden border-x-0 py-5 md:py-6" aria-hidden="true">
+      <div className="eo-glass overflow-hidden rounded-none border-x-0 py-3.5 md:py-6" aria-hidden="true">
         <div ref={trackRef} className="eo-marquee-track">
           {row}
           {row}
@@ -75,7 +75,7 @@ export function MarqueeBand() {
 function Emblem() {
   const text = "LOGRA · BIENES RAÍCES · PUERTO RICO · ";
   return (
-    <div className="absolute left-1/2 top-1/2 grid size-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-eo-ink/90 shadow-[0_0_0_6px_rgb(255_255_255/0.04),0_20px_50px_rgb(0_0_0/0.6)] backdrop-blur md:size-36">
+    <div className="absolute left-1/2 top-1/2 grid size-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-eo-ink/90 shadow-[0_0_0_6px_rgb(255_255_255/0.04),0_20px_50px_rgb(0_0_0/0.6)] backdrop-blur md:size-36">
       <svg viewBox="0 0 120 120" className="eo-emblem-ring absolute inset-1.5" aria-hidden="true">
         <defs>
           <path id="eo-emblem-circle" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0" />

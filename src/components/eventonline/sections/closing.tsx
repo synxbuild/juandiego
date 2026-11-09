@@ -12,10 +12,10 @@ const RECAP = [
 ];
 
 const DETAILS = [
-  { icon: CalendarDays, label: event.dateLabel },
-  { icon: Clock, label: `${event.timeLabel} · ${event.timezoneLabel}` },
-  { icon: MonitorPlay, label: event.format },
-  { icon: Timer, label: event.duration },
+  { icon: CalendarDays, term: "Fecha", value: event.dateLabel },
+  { icon: Clock, term: "Hora", value: `${event.timeLabel} (${event.shortTimezone})` },
+  { icon: MonitorPlay, term: "Modalidad", value: event.format },
+  { icon: Timer, term: "Duración", value: event.duration },
 ];
 
 export function Closing() {
@@ -43,16 +43,23 @@ export function Closing() {
             ))}
           </ul>
 
-          <ul className="relative mx-auto mt-10 flex max-w-3xl flex-wrap justify-center gap-2">
-            {DETAILS.map(({ icon: Icon, label }) => (
-              <li key={label} className="eo-glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/85">
-                <Icon className="size-4 text-eo-gold-soft" aria-hidden="true" />
-                {label}
-              </li>
+          {/* Bento 2×2 (4 columns on desktop): compact on mobile instead of a tall stack of pills. */}
+          <dl className="relative mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-2.5 text-left md:grid-cols-4 md:gap-3">
+            {DETAILS.map(({ icon: Icon, term, value }) => (
+              <div key={term} className="eo-glass flex flex-col gap-3 rounded-2xl p-4">
+                <span className="grid size-9 place-items-center rounded-lg bg-eo-black/60 text-eo-gold-soft ring-1 ring-eo-gold-soft/30">
+                  <Icon className="size-4" aria-hidden="true" />
+                </span>
+                <div>
+                  <dt className="text-[0.625rem] uppercase tracking-[0.18em] text-white/50">{term}</dt>
+                  <dd className="mt-1 text-sm font-medium leading-snug text-white">{value}</dd>
+                </div>
+              </div>
             ))}
-          </ul>
+          </dl>
 
-          <div className="relative mt-10 flex justify-center">
+          <div className="relative mx-auto mt-8 max-w-3xl">
+            <p className="mb-3 text-[0.625rem] uppercase tracking-[0.2em] text-white/50">Comienza en</p>
             <Countdown />
           </div>
 

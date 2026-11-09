@@ -34,7 +34,7 @@ export function MobileCta() {
       }`}
       inert={!show}
     >
-      <div className="eo-glass flex items-center justify-between gap-3 rounded-2xl p-2 pl-4 shadow-[0_20px_40px_rgb(0_0_0/0.6)]">
+      <div className="eo-glass eo-glass--nav flex items-center justify-between gap-3 rounded-2xl p-2 pl-4 shadow-[0_20px_40px_rgb(0_0_0/0.6)]">
         <div className="min-w-0">
           <p className="truncate text-sm font-medium">Masterclass gratuita</p>
           <p className="truncate text-[0.6875rem] text-white/55">

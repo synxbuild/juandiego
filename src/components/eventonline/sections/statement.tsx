@@ -1,8 +1,9 @@
 import { credentials, hero, statement } from "../content";
+import { RoofDivider } from "../ui/roof-divider";
 
 export function Statement() {
   return (
-    <section aria-labelledby="statement-title" className="eo-noise relative overflow-hidden bg-gradient-to-b from-eo-black via-[#0d0d0c] to-[#1a1916] pb-44 pt-28 md:pb-56 md:pt-40">
+    <section aria-labelledby="statement-title" className="eo-noise relative overflow-hidden bg-gradient-to-b from-eo-black via-[#0d0d0c] to-[#1a1916] pb-40 pt-32 md:pb-56 md:pt-40">
       <div className="eo-shell relative text-center">
         <h2 id="statement-title" data-reveal className="eo-title mx-auto max-w-4xl text-[2.25rem] md:text-[3.75rem]">
           {statement.lead} <span className="eo-serif eo-gold">{statement.accent}</span>
@@ -35,23 +36,12 @@ export function Statement() {
         </p>
       </div>
 
-      {/* Giant outlined word drifting with scroll, half hidden by the curve. */}
-      <p
-        data-drift-x="-18"
-        className="eo-outline-word absolute -bottom-6 left-0 text-[22vw] md:-bottom-10"
-        aria-hidden="true"
-      >
+      {/* Giant outlined word drifting with scroll, half hidden by the roof. */}
+      <p data-drift-x="-18" className="eo-outline-word absolute -bottom-6 left-0 text-[22vw] md:-bottom-10" aria-hidden="true">
         OPORTUNIDAD HISTÓRICA
       </p>
 
-      <svg
-        className="absolute inset-x-0 bottom-0 h-20 w-full md:h-32"
-        viewBox="0 0 1440 128"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path d="M0 128V70C260 70 420 0 760 0C1060 0 1180 52 1440 52V128H0Z" fill="#f6f5f2" />
-      </svg>
+      <RoofDivider id="statement" fill="#f6f5f2" className="absolute inset-x-0 bottom-0" />
     </section>
   );
 }

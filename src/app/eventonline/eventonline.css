@@ -167,14 +167,28 @@
   .eo-cta:hover .eo-cta__chip {
     transform: rotate(45deg);
   }
+  /* Mobile first: compact so the label fits on one line at 390px; roomier from tablet up. */
   .eo-cta--lg {
-    min-height: 4.25rem;
-    padding-left: 2rem;
-    font-size: 1.0625rem;
+    min-height: 4rem;
+    padding-left: 1.5rem;
+    gap: 1rem;
+    font-size: 1rem;
   }
   .eo-cta--lg .eo-cta__chip {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 3rem;
+    height: 3rem;
+  }
+  @media (min-width: 768px) {
+    .eo-cta--lg {
+      min-height: 4.25rem;
+      padding-left: 2rem;
+      gap: 1.75rem;
+      font-size: 1.0625rem;
+    }
+    .eo-cta--lg .eo-cta__chip {
+      width: 3.25rem;
+      height: 3.25rem;
+    }
   }
 
   .eo-ghost {
